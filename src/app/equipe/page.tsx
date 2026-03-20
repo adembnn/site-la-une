@@ -59,9 +59,11 @@ export default async function EquipePage() {
       {Object.entries(poles).map(([pole, membresDuPole]) => (
         <section key={pole} className="mt-12">
           <AnimateOnScroll>
-            <h2 className="text-sm font-semibold text-dore uppercase tracking-wider mb-6">
-              {pole}
-            </h2>
+            {pole !== "Autre" && (
+              <h2 className="text-sm font-semibold text-dore uppercase tracking-wider mb-6">
+                {pole}
+              </h2>
+            )}
           </AnimateOnScroll>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {membresDuPole.map((membre, i) => (
