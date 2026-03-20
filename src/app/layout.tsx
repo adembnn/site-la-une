@@ -15,13 +15,37 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteUrl = "https://site-la-une-w8a6.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "La UNE | Journal de l'Unessec",
+    default: "La UNE | Journal de géopolitique par Unessec",
     template: "%s | La UNE",
   },
   description:
-    "Le journal de géopolitique et de diplomatie de l'ESSEC Business School",
+    "Le journal de géopolitique et de diplomatie de l'ESSEC Business School. Analyses, cartes et dossiers sur l'actualité internationale.",
+  keywords: ["géopolitique", "diplomatie", "ESSEC", "Unessec", "relations internationales", "La UNE", "journal étudiant"],
+  authors: [{ name: "Unessec - ESSEC Business School" }],
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: siteUrl,
+    siteName: "La UNE par Unessec",
+    title: "La UNE | Journal de géopolitique par Unessec",
+    description: "Le journal de géopolitique et de diplomatie de l'ESSEC Business School.",
+    images: [{ url: "/logo-unessec.jpg", width: 800, height: 600, alt: "La UNE par Unessec" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "La UNE | Journal de géopolitique par Unessec",
+    description: "Le journal de géopolitique et de diplomatie de l'ESSEC Business School.",
+    images: ["/logo-unessec.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

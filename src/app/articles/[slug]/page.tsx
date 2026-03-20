@@ -75,9 +75,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) return { title: "Article introuvable" };
+
+  const imageUrl = article.imageCouverture
+    ? urlFor(article.imageCouverture).width(1200).height(630).quality(80).url()
+    : undefined;
+
   return {
     title: article.titre,
-    description: article.sousTitre || "",
+    description: article.sousTitre || article.titre,
+    openGraph: {
+      title: article.titre,
+      description: article.sousTitre || article.titre,
+      type: "article",
+      publishedTime: article.datePublication,
+      authors: article.auteur?.nom ? [article.auteur.nom] : undefined,
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: article.titre }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.titre,
+      description: article.sousTitre || article.titre,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
   };
 }
 
