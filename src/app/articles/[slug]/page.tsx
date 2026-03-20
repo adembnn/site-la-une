@@ -19,12 +19,12 @@
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { getArticleBySlug, getAllArticleSlugs } from "@/sanity/queries";
+import { getArticleBySlug, getAllArticleSlugs, getArticlesSimilaires } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 import { PortableText } from "@portabletext/react";
 import { formaterTempsLecture } from "@/lib/reading-time";
 import ImageLightbox from "@/components/ImageLightbox";
+import ArticleCard from "@/components/ArticleCard";
 
 /**
  * Composants personnalisés pour Portable Text.
@@ -125,92 +125,118 @@ export default async function ArticlePage({
     ? formaterTempsLecture(article.contenu)
     : "";
 
+  // 6. Articles similaires (même catégorie)
+  const categorySlugs = article.categories?.map((c: { slug: string }) => c.slug) || [];
+  const articlesSimilaires = categorySlugs.length > 0
+    ? await getArticlesSimilaires(article._id, categorySlugs)
+    : [];
+
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      {/* En-tête de l'article */}
-      <div className="mb-8">
-        {/* Affiche toutes les catégories de l'article */}
-        {article.categories && article.categories.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {article.categories.map((cat: { nom: string; slug: string }) => (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <article className="max-w-4xl mx-auto">
+        {/* En-tête de l'article */}
+        <div className="mb-8">
+          {article.categories && article.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {article.categories.map((cat: { nom: string; slug: string }) => (
+                <Link
+                  key={cat.slug}
+                  href={`/rubriques/${cat.slug}`}
+                  className="text-sm font-semibold text-bleu uppercase tracking-wider hover:text-bleu-fonce"
+                >
+                  {cat.nom}
+                </Link>
+              ))}
+            </div>
+          )}
+          <h1 className="mt-2 font-serif text-3xl md:text-4xl font-bold text-bleu-fonce leading-tight">
+            {article.titre}
+          </h1>
+          {article.sousTitre && (
+            <p className="mt-3 text-lg text-gris/70">{article.sousTitre}</p>
+          )}
+          <div className="mt-4 flex items-center gap-3 text-sm text-gris/60">
+            {article.auteur && (
               <Link
-                key={cat.slug}
-                href={`/rubriques/${cat.slug}`}
-                className="text-sm font-semibold text-bleu uppercase tracking-wider hover:text-bleu-fonce"
+                href={`/equipe/${article.auteur.slug}`}
+                className="font-medium text-bleu-fonce hover:text-bleu"
               >
-                {cat.nom}
+                {article.auteur.nom}
               </Link>
-            ))}
+            )}
+            <span>·</span>
+            <span>{dateFormatee}</span>
+            {tempsLecture && (
+              <>
+                <span>·</span>
+                <span>{tempsLecture}</span>
+              </>
+            )}
+            {article.estDossier && (
+              <>
+                <span>·</span>
+                <span className="text-dore font-medium">
+                  Dossier de la semaine
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Image de couverture */}
+        {article.imageCouverture && (
+          <div className="mb-8 rounded-2xl overflow-hidden">
+            <ImageLightbox
+              src={urlFor(article.imageCouverture).width(1200).quality(80).url()}
+              alt={article.titre}
+              width={1200}
+              height={675}
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="w-full h-auto object-cover rounded-2xl"
+              priority
+            />
           </div>
         )}
-        <h1 className="mt-2 font-serif text-3xl md:text-4xl font-bold text-bleu-fonce leading-tight">
-          {article.titre}
-        </h1>
-        {article.sousTitre && (
-          <p className="mt-3 text-lg text-gris/70">{article.sousTitre}</p>
+
+        {/* Séparateur doré */}
+        <div className="h-0.5 bg-dore w-16 mb-8" />
+
+        {/* Contenu riche (Portable Text) */}
+        {article.contenu && (
+          <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-bleu-fonce prose-a:text-bleu prose-h2:mt-12 prose-h2:mb-4 prose-h3:mt-10 prose-h3:mb-3 prose-p:leading-relaxed">
+            <PortableText value={article.contenu} components={portableTextComponents} />
+          </div>
         )}
-        <div className="mt-4 flex items-center gap-3 text-sm text-gris/60">
-          {article.auteur && (
-            <Link
-              href={`/equipe/${article.auteur.slug}`}
-              className="font-medium text-bleu-fonce hover:text-bleu"
-            >
-              {article.auteur.nom}
-            </Link>
-          )}
-          <span>·</span>
-          <span>{dateFormatee}</span>
-          {tempsLecture && (
-            <>
-              <span>·</span>
-              <span>{tempsLecture}</span>
-            </>
-          )}
-          {article.estDossier && (
-            <>
-              <span>·</span>
-              <span className="text-dore font-medium">
-                Dossier de la semaine
-              </span>
-            </>
-          )}
-        </div>
-      </div>
 
-      {/* Image de couverture — cliquable pour agrandir */}
-      {article.imageCouverture && (
-        <div className="mb-8 rounded-2xl overflow-hidden">
-          <ImageLightbox
-            src={urlFor(article.imageCouverture).width(1200).quality(80).url()}
-            alt={article.titre}
-            width={1200}
-            height={675}
-            sizes="(max-width: 896px) 100vw, 896px"
-            className="w-full h-auto object-cover rounded-2xl"
-            priority
-          />
-        </div>
-      )}
+      </article>
 
-      {/* Séparateur doré */}
-      <div className="h-0.5 bg-dore w-16 mb-8" />
-
-      {/* Contenu riche (Portable Text) */}
-      {article.contenu && (
-        <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-bleu-fonce prose-a:text-bleu prose-h2:mt-12 prose-h2:mb-4 prose-h3:mt-10 prose-h3:mb-3 prose-p:leading-relaxed">
-          <PortableText value={article.contenu} components={portableTextComponents} />
-        </div>
+      {/* Section "Vous pourriez aimer aussi" */}
+      {articlesSimilaires.length > 0 && (
+        <section style={{ marginTop: "56px" }}>
+          <div className="flex items-center gap-4">
+            <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent to-dore/30" />
+            <h2 className="font-serif text-2xl font-bold text-bleu-fonce whitespace-nowrap">
+              Vous pourriez aimer aussi
+            </h2>
+            <div className="h-0.5 flex-1 bg-gradient-to-l from-transparent to-dore/30" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style={{ marginTop: "48px" }}>
+            {articlesSimilaires.map((a: any) => (
+              <ArticleCard key={a._id} article={a} />
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Lien retour */}
-      <div className="mt-12 pt-8 border-t border-gris/10">
+      <div className="mt-12 text-center">
         <Link
           href="/articles"
-          className="text-sm font-medium text-bleu hover:text-bleu-fonce transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-bleu hover:text-bleu-fonce transition-colors"
         >
           ← Tous les articles
         </Link>
       </div>
-    </article>
+    </div>
   );
 }

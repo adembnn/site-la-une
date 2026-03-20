@@ -219,6 +219,25 @@ export async function getMembres() {
  * Récupère tous les articles avec les champs nécessaires pour la recherche.
  * On inclut le contenu pour calculer le temps de lecture côté client.
  */
+/**
+ * Récupère des articles similaires (même catégorie, sauf l'article actuel).
+ * Limité à 4 résultats pour la sidebar "À lire aussi".
+ */
+export async function getArticlesSimilaires(articleId: string, categorySlugs: string[]) {
+  return client.fetch(
+    `*[_type == "article" && _id != $id && count((categories[]->slug.current)[@ in $slugs]) > 0] | order(datePublication desc) [0...4] {
+      _id,
+      titre,
+      "slug": slug.current,
+      datePublication,
+      imageCouverture,
+      "categories": categories[]->{ nom, "slug": slug.current },
+      "auteur": auteur->{ nom, "slug": slug.current }
+    }`,
+    { id: articleId, slugs: categorySlugs },
+  );
+}
+
 export async function getArticlesForSearch() {
   return client.fetch(
     `*[_type == "article"] | order(datePublication desc) {
