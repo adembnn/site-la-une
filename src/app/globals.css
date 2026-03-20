@@ -1,26 +1,59 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@plugin "@tailwindcss/typography";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bleu: #009EDB;
+  --color-bleu-fonce: #003366;
+  --color-dore: #D4A843;
+  --color-dore-clair: #F5E6C8;
+  --color-gris: #333333;
+  --color-gris-clair: #F5F5F5;
+  --color-blanc: #FFFFFF;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-blanc);
+  color: var(--color-gris);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Animation barre dorée */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Animations pour le modal de recherche */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+.animate-slideDown {
+  animation: slideDown 0.25s ease-out;
+}
+
+/* Scrollbar subtile */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-gris-clair);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bleu);
+  border-radius: 3px;
 }
