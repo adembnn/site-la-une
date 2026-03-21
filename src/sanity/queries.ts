@@ -52,6 +52,8 @@ export async function getArticles() {
       "categories": categories[]->{ nom, "slug": slug.current },
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
+    {},
+    { next: { revalidate: 60 } },
   );
 }
 
@@ -99,6 +101,7 @@ export async function getArticleBySlug(slug: string) {
       "auteur": auteur->{ nom, "slug": slug.current, photo, role, promo }
     }`,
     { slug },
+    { next: { revalidate: 60 } },
   );
 }
 
@@ -122,6 +125,7 @@ export async function getArticlesByCategorie(categorieSlug: string) {
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
     { slug: categorieSlug },
+    { next: { revalidate: 60 } },
   );
 }
 
@@ -235,6 +239,7 @@ export async function getArticlesSimilaires(articleId: string, categorySlugs: st
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
     { id: articleId, slugs: categorySlugs },
+    { next: { revalidate: 60 } },
   );
 }
 
