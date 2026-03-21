@@ -272,3 +272,17 @@ export async function getMembreBySlug(slug: string) {
     { slug },
   );
 }
+
+export async function getArticlesForRSS() {
+  return client.fetch(
+    `*[_type == "article"] | order(datePublication desc) [0...20] {
+      titre,
+      sousTitre,
+      "slug": slug.current,
+      datePublication,
+      "categories": categories[]->{ nom }
+    }`,
+    {},
+    { next: { revalidate: 3600 } },
+  );
+}

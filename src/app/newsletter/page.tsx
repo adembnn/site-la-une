@@ -1,3 +1,5 @@
+import NewsletterForm from "@/components/NewsletterForm";
+
 export const metadata = {
   title: "Newsletter",
   description: "Inscrivez-vous à la newsletter de La UN'e.",
@@ -14,20 +16,9 @@ export default function NewsletterPage() {
         Pas de spam, uniquement de la géopolitique.
       </p>
 
-      <form className="mt-8 flex flex-col gap-4">
-        <input
-          type="email"
-          placeholder="votre@email.com"
-          required
-          className="px-4 py-3 rounded-lg border border-gris/20 focus:outline-none focus:ring-2 focus:ring-bleu text-center"
-        />
-        <button
-          type="submit"
-          className="bg-dore text-bleu-fonce font-semibold px-6 py-3 rounded-lg hover:bg-dore-clair transition-colors"
-        >
-          S&apos;inscrire à la newsletter
-        </button>
-      </form>
+      <div className="mt-8">
+        <NewsletterForm variant="page" />
+      </div>
 
       <p className="mt-6 text-xs text-gris/50">
         En vous inscrivant, vous acceptez de recevoir notre newsletter

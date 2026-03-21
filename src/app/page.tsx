@@ -19,6 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ArticleCard from "@/components/ArticleCard";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import NewsletterForm from "@/components/NewsletterForm";
 import { getArticles } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 
@@ -330,19 +331,7 @@ export default async function Home() {
             <p className="mt-3 text-blanc/60 text-lg">
               Recevez nos articles chaque semaine dans votre boîte mail.
             </p>
-            <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input
-                type="email"
-                placeholder="votre@email.com"
-                className="flex-1 px-5 py-4 rounded-xl bg-blanc/10 backdrop-blur-sm border border-blanc/20 text-blanc placeholder:text-blanc/40 focus:outline-none focus:ring-2 focus:ring-dore focus:bg-blanc/15 transition-all"
-              />
-              <button
-                type="submit"
-                className="bg-dore text-bleu-fonce font-semibold px-8 py-4 rounded-xl hover:bg-blanc hover:shadow-xl hover:shadow-dore/20 transition-all duration-300"
-              >
-                S&apos;inscrire
-              </button>
-            </form>
+            <NewsletterForm variant="banner" />
           </AnimateOnScroll>
         </div>
       </section>
