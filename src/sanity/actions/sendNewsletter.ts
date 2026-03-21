@@ -8,8 +8,9 @@ export const SendNewsletterAction: DocumentActionComponent = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { publish } = useDocumentOperation(id, "newsletter");
 
+  const doc = published || props.draft;
   const isAlreadySent = published?.envoye === true;
-  const hasContent = published?.objet && published?.contenu;
+  const hasContent = doc?.objet && doc?.contenu;
 
   return {
     label: sending
