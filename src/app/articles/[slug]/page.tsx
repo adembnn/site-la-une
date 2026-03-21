@@ -25,6 +25,7 @@ import { PortableText } from "@portabletext/react";
 import { formaterTempsLecture } from "@/lib/reading-time";
 import ImageLightbox from "@/components/ImageLightbox";
 import ArticleCard from "@/components/ArticleCard";
+import ShareButton from "@/components/ShareButton";
 
 /**
  * Composants personnalisés pour Portable Text.
@@ -180,6 +181,8 @@ export default async function ArticlePage({
                 </span>
               </>
             )}
+            <span>·</span>
+            <ShareButton title={article.titre} text={article.sousTitre} />
           </div>
         </div>
 

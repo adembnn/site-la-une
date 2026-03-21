@@ -15,7 +15,7 @@ const ARTICLES_PAR_PAGE = 12;
 
 export const metadata = {
   title: "Tous les articles",
-  description: "Retrouvez tous les articles de La UNE, le journal de l'Unessec.",
+  description: "Retrouvez tous les articles de La UN'e, le journal de l'UN'ESSEC.",
 };
 
 export default async function ArticlesPage({

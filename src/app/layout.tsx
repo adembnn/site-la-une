@@ -20,26 +20,26 @@ const siteUrl = "https://site-la-une-w8a6.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "La UNE ESSEC | Journal de géopolitique par Unessec - ESSEC Business School",
-    template: "%s | La UNE ESSEC",
+    default: "La UN'e ESSEC | Journal de géopolitique par UN'ESSEC - ESSEC Business School",
+    template: "%s | La UN'e ESSEC",
   },
   description:
-    "La UNE, le journal de géopolitique et de diplomatie de l'ESSEC Business School par l'association Unessec. Analyses, cartes géopolitiques et dossiers sur l'actualité internationale.",
-  keywords: ["La UNE", "La UNE ESSEC", "Unessec", "ESSEC", "géopolitique", "diplomatie", "ESSEC Business School", "journal étudiant ESSEC", "relations internationales", "cartes géopolitiques"],
-  authors: [{ name: "Unessec - ESSEC Business School" }],
+    "La UN'e, le journal de géopolitique et de diplomatie de l'ESSEC Business School par l'association UN'ESSEC. Analyses, cartes géopolitiques et dossiers sur l'actualité internationale.",
+  keywords: ["La UN'e", "La UN'e ESSEC", "UN'ESSEC", "ESSEC", "géopolitique", "diplomatie", "ESSEC Business School", "journal étudiant ESSEC", "relations internationales", "cartes géopolitiques"],
+  authors: [{ name: "UN'ESSEC - ESSEC Business School" }],
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: siteUrl,
-    siteName: "La UNE par Unessec",
-    title: "La UNE ESSEC | Journal de géopolitique par Unessec",
-    description: "La UNE, le journal de géopolitique et de diplomatie de l'ESSEC Business School par Unessec.",
-    images: [{ url: "/logo-unessec.jpg", width: 800, height: 600, alt: "La UNE ESSEC - Journal Unessec" }],
+    siteName: "La UN'e par UN'ESSEC",
+    title: "La UN'e ESSEC | Journal de géopolitique par UN'ESSEC",
+    description: "La UN'e, le journal de géopolitique et de diplomatie de l'ESSEC Business School par UN'ESSEC.",
+    images: [{ url: "/logo-unessec.jpg", width: 800, height: 600, alt: "La UN'e ESSEC - Journal UN'ESSEC" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "La UNE ESSEC | Journal de géopolitique par Unessec",
-    description: "La UNE, le journal de géopolitique et de diplomatie de l'ESSEC Business School par Unessec.",
+    title: "La UN'e ESSEC | Journal de géopolitique par UN'ESSEC",
+    description: "La UN'e, le journal de géopolitique et de diplomatie de l'ESSEC Business School par UN'ESSEC.",
     images: ["/logo-unessec.jpg"],
   },
   robots: {

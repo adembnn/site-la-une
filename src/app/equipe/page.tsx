@@ -18,7 +18,7 @@ import { getMembres } from "@/sanity/queries";
 
 export const metadata = {
   title: "L'équipe",
-  description: "Découvrez les membres de l'association Unessec.",
+  description: "Découvrez les membres de l'association UN'ESSEC.",
 };
 
 type Membre = {
@@ -51,7 +51,7 @@ export default async function EquipePage() {
           L&apos;équipe
         </h1>
         <p className="mt-3 text-lg text-gris/70 max-w-2xl">
-          Les membres de l&apos;association Unessec qui font vivre La UNE chaque
+          Les membres de l&apos;association UN&apos;ESSEC qui font vivre La UN&apos;e chaque
           semaine.
         </p>
       </AnimateOnScroll>

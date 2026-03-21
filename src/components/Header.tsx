@@ -29,15 +29,15 @@ export default function Header() {
           <Link href="/" className="group flex items-center gap-3 whitespace-nowrap">
             <Image
               src="/logo-unessec.jpg"
-              alt="Logo Unessec"
+              alt="Logo UN'ESSEC"
               width={44}
               height={44}
               className="rounded-full"
             />
             <span>
-              <span className="font-serif text-2xl font-bold tracking-tight text-blanc">La UNE</span>
+              <span className="font-serif text-2xl font-bold tracking-tight text-blanc">La UN&apos;e</span>
               {" "}
-              <span className="text-[10px] text-dore italic">par Unessec</span>
+              <span className="text-[10px] text-dore italic">par UN&apos;ESSEC</span>
             </span>
           </Link>
 
@@ -79,7 +79,7 @@ export default function Header() {
               href="/equipe"
               className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full"
             >
-              Équipe
+              Notre équipe
             </Link>
             <Link
               href="/a-propos"
@@ -91,7 +91,7 @@ export default function Header() {
 
           {/* Recherche mobile + Bouton menu mobile */}
           <div className="flex items-center gap-1 md:hidden">
-            <SearchModal />
+            <SearchModal mobile />
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="p-2 text-blanc/80 hover:text-dore transition-colors"

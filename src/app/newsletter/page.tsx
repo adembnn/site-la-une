@@ -1,6 +1,6 @@
 export const metadata = {
   title: "Newsletter",
-  description: "Inscrivez-vous à la newsletter de La UNE.",
+  description: "Inscrivez-vous à la newsletter de La UN'e.",
 };
 
 export default function NewsletterPage() {

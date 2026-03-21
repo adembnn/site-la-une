@@ -1,6 +1,6 @@
 export const metadata = {
   title: "À propos",
-  description: "Découvrez l'association Unessec et son journal La UNE.",
+  description: "Découvrez l'association UN'ESSEC et son journal La UN'e.",
 };
 
 export default function AProposPage() {
@@ -14,14 +14,14 @@ export default function AProposPage() {
 
       <div className="space-y-6 text-gris leading-relaxed">
         <p>
-          <strong className="text-bleu-fonce">Unessec</strong>{" "}est l&apos;association de géopolitique et de diplomatie de l&apos;ESSEC
+          <strong className="text-bleu-fonce">UN&apos;ESSEC</strong>{" "}est l&apos;association de géopolitique et de diplomatie de l&apos;ESSEC
           Business School. Fondée par des étudiants passionnés par les relations
           internationales, elle a pour vocation de décrypter l&apos;actualité
           mondiale et de former les futurs acteurs de la scène internationale.
         </p>
 
         <p>
-          Chaque semaine, notre journal <strong className="text-bleu-fonce">La UNE</strong>{" "}publie
+          Chaque semaine, notre journal <strong className="text-bleu-fonce">La UN&apos;e</strong>{" "}publie
           cinq articles rédigés par nos membres : quatre articles courts
           couvrant l&apos;actualité géopolitique et un dossier approfondi sur un
           enjeu majeur.

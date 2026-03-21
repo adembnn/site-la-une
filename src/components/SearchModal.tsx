@@ -7,9 +7,12 @@
  *
  * Quand on clique sur la loupe, la barre se déploie dans le header
  * avec une animation. Les résultats s'affichent en dropdown en dessous.
+ *
+ * Sur mobile (prop mobile), la barre s'ouvre en overlay pleine largeur.
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Fuse from "fuse.js";
 
@@ -42,7 +45,7 @@ const fuseOptions = {
   findAllMatches: true,   // continue à chercher même après un premier match
 };
 
-export default function SearchModal() {
+export default function SearchModal({ mobile }: { mobile?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [articles, setArticles] = useState<SearchArticle[]>([]);
@@ -81,7 +84,7 @@ export default function SearchModal() {
   // Focus sur l'input quand la barre s'ouvre
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current?.focus(), 50);
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
 
@@ -93,8 +96,14 @@ export default function SearchModal() {
         close();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // Delay registration to avoid the opening click triggering close
+    const timer = setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, 100);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpen, close]);
 
   // Raccourci clavier : Ctrl+K ou Cmd+K
@@ -123,6 +132,50 @@ export default function SearchModal() {
     setResults(fuseResults.map((r) => r.item));
   }, [query]);
 
+  // Dropdown des résultats (partagé entre mobile et desktop)
+  const resultsDropdown = (results.length > 0 || (query.length >= 2 && results.length === 0) || loading) && (
+    <div className="max-h-[400px] overflow-y-auto">
+      {loading && (
+        <div className="px-5 py-6 text-center text-sm text-gris/50">
+          Chargement...
+        </div>
+      )}
+
+      {!loading && query.length >= 2 && results.length === 0 && (
+        <div className="px-5 py-6 text-center text-sm text-gris/50">
+          Aucun résultat pour &laquo;&nbsp;{query}&nbsp;&raquo;
+        </div>
+      )}
+
+      {results.length > 0 && (
+        <ul className="py-2">
+          {results.map((article) => (
+            <li key={article.slug}>
+              <Link
+                href={`/articles/${article.slug}`}
+                onClick={close}
+                className="flex flex-col gap-1 px-5 py-3 hover:bg-bleu/5 transition-colors"
+              >
+                <span className="text-sm font-medium text-bleu-fonce leading-snug">
+                  {article.titre}
+                </span>
+                <div className="flex items-center gap-2 text-xs text-gris/50">
+                  {article.auteur?.nom && <span>{article.auteur.nom}</span>}
+                  {article.auteur?.nom && article.categories?.[0] && (
+                    <span className="w-1 h-1 rounded-full bg-dore" />
+                  )}
+                  {article.categories?.[0] && (
+                    <span className="text-dore">{article.categories[0].nom}</span>
+                  )}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+
   // État fermé : juste la loupe
   if (!isOpen) {
     return (
@@ -139,7 +192,49 @@ export default function SearchModal() {
     );
   }
 
-  // État ouvert : barre de recherche inline
+  // Mobile : overlay pleine largeur via portail
+  if (mobile) {
+    return createPortal(
+      <div ref={containerRef} className="fixed inset-0 z-[100]">
+        {/* Fond sombre */}
+        <div className="absolute inset-0 bg-black/50" onClick={close} />
+        {/* Barre de recherche */}
+        <div className="relative bg-bleu-fonce px-4 py-3 border-b border-blanc/20">
+          <div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-blanc/10 border border-blanc/20">
+            <svg className="w-4 h-4 text-blanc/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Rechercher"
+              className="flex-1 text-sm text-blanc placeholder:text-blanc/40 outline-none bg-transparent"
+            />
+            <button
+              onClick={close}
+              className="p-0.5 text-blanc/50 hover:text-blanc transition-colors"
+              aria-label="Fermer"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          {/* Résultats */}
+          {resultsDropdown && (
+            <div className="mt-2 bg-blanc rounded-xl shadow-2xl border border-gris/10 overflow-hidden">
+              {resultsDropdown}
+            </div>
+          )}
+        </div>
+      </div>,
+      document.body
+    );
+  }
+
+  // Desktop : barre de recherche inline
   return (
     <div ref={containerRef} className="relative">
       {/* Barre de recherche inline */}
@@ -167,48 +262,9 @@ export default function SearchModal() {
       </div>
 
       {/* Résultats dropdown */}
-      {(results.length > 0 || (query.length >= 2 && results.length === 0) || loading) && (
+      {resultsDropdown && (
         <div className="absolute top-full right-0 mt-2 w-80 lg:w-96 bg-blanc rounded-xl shadow-2xl shadow-bleu-fonce/20 border border-gris/10 overflow-hidden z-50">
-          <div className="max-h-[400px] overflow-y-auto">
-            {loading && (
-              <div className="px-5 py-6 text-center text-sm text-gris/50">
-                Chargement...
-              </div>
-            )}
-
-            {!loading && query.length >= 2 && results.length === 0 && (
-              <div className="px-5 py-6 text-center text-sm text-gris/50">
-                Aucun résultat pour &laquo;&nbsp;{query}&nbsp;&raquo;
-              </div>
-            )}
-
-            {results.length > 0 && (
-              <ul className="py-2">
-                {results.map((article) => (
-                  <li key={article.slug}>
-                    <Link
-                      href={`/articles/${article.slug}`}
-                      onClick={close}
-                      className="flex flex-col gap-1 px-5 py-3 hover:bg-bleu/5 transition-colors"
-                    >
-                      <span className="text-sm font-medium text-bleu-fonce leading-snug">
-                        {article.titre}
-                      </span>
-                      <div className="flex items-center gap-2 text-xs text-gris/50">
-                        {article.auteur?.nom && <span>{article.auteur.nom}</span>}
-                        {article.auteur?.nom && article.categories?.[0] && (
-                          <span className="w-1 h-1 rounded-full bg-dore" />
-                        )}
-                        {article.categories?.[0] && (
-                          <span className="text-dore">{article.categories[0].nom}</span>
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          {resultsDropdown}
         </div>
       )}
     </div>
