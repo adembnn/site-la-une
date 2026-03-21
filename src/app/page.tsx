@@ -184,10 +184,10 @@ export default async function Home() {
                 <div className="rounded-xl overflow-hidden border-2 border-dore/30 shadow-lg shadow-bleu-fonce/5">
                   {derniereCarte.imageCouverture ? (
                     <Image
-                      src={urlFor(derniereCarte.imageCouverture).width(2400).quality(100).url()}
+                      src={urlFor(derniereCarte.imageCouverture).width(1600).quality(85).url()}
                       alt={derniereCarte.titre}
-                      width={2400}
-                      height={1400}
+                      width={1600}
+                      height={933}
                       sizes="(max-width: 1280px) 100vw, 1200px"
                       className="w-full h-auto object-contain"
                     />

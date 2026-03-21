@@ -75,6 +75,8 @@ export async function getArticlesAvecContenu() {
       "categories": categories[]->{ nom, "slug": slug.current },
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
+    {},
+    { next: { revalidate: 60 } },
   );
 }
 
@@ -120,7 +122,6 @@ export async function getArticlesByCategorie(categorieSlug: string) {
       datePublication,
       estDossier,
       imageCouverture,
-      contenu,
       "categories": categories[]->{ nom, "slug": slug.current },
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
@@ -142,11 +143,11 @@ export async function getArticlesByAuteur(auteurSlug: string) {
       datePublication,
       estDossier,
       imageCouverture,
-      contenu,
       "categories": categories[]->{ nom, "slug": slug.current },
       "auteur": auteur->{ nom, "slug": slug.current }
     }`,
     { slug: auteurSlug },
+    { next: { revalidate: 60 } },
   );
 }
 
@@ -185,6 +186,8 @@ export async function getCategories() {
       "slug": slug.current,
       description
     }`,
+    {},
+    { next: { revalidate: 300 } },
   );
 }
 
@@ -216,6 +219,8 @@ export async function getMembres() {
       promo,
       bio
     }`,
+    {},
+    { next: { revalidate: 300 } },
   );
 }
 
@@ -254,6 +259,8 @@ export async function getArticlesForSearch() {
       "auteur": auteur->{ nom },
       "contenuTexte": pt::text(contenu)
     }`,
+    {},
+    { next: { revalidate: 60 } },
   );
 }
 

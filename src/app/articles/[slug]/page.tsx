@@ -38,7 +38,7 @@ const portableTextComponents = {
       return (
         <figure className="my-8">
           <ImageLightbox
-            src={urlFor(value).width(2400).quality(100).url()}
+            src={urlFor(value).width(1600).quality(85).url()}
             alt={value.alt || "Image de l'article"}
             width={2400}
             height={1350}
@@ -190,7 +190,7 @@ export default async function ArticlePage({
         {article.imageCouverture && (
           <div className="mb-8 rounded-2xl overflow-hidden">
             <ImageLightbox
-              src={urlFor(article.imageCouverture).width(2400).quality(100).url()}
+              src={urlFor(article.imageCouverture).width(1600).quality(85).url()}
               alt={article.titre}
               width={2400}
               height={1350}
