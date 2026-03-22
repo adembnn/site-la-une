@@ -13,8 +13,8 @@
  */
 
 import Link from "next/link";
-import Image from "next/image";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import MembrePhoto from "@/components/MembrePhoto";
 import { getMembres } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 
@@ -53,7 +53,7 @@ export default async function EquipePage() {
         <h1 className="font-serif text-3xl md:text-4xl font-bold text-bleu-fonce">
           L&apos;équipe
         </h1>
-        <p className="mt-3 text-lg text-gris/70 max-w-2xl">
+        <p className="mt-3 text-lg text-gris/70">
           Les membres de l&apos;association UN&apos;ESSEC qui font vivre La UN&apos;e chaque
           semaine.
         </p>
@@ -75,21 +75,10 @@ export default async function EquipePage() {
                   href={`/equipe/${membre.slug}`}
                   className="group block bg-blanc rounded-2xl border border-gris/8 p-6 hover:shadow-xl hover:shadow-bleu-fonce/8 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className={`w-20 h-20 rounded-full flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto overflow-hidden ${membre.photo ? "bg-blanc" : "bg-bleu-fonce"}`}>
-                    {membre.photo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={urlFor(membre.photo).width(200).height(200).fit("crop").auto("format").quality(80).url()}
-                        alt={membre.nom}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      membre.nom
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                    )}
-                  </div>
+                  <MembrePhoto
+                    nom={membre.nom}
+                    photoUrl={membre.photo ? urlFor(membre.photo).width(400).height(400).fit("crop").quality(80).url() : undefined}
+                  />
                   <div className="mt-4 text-center">
                     <h3 className="font-serif text-lg font-semibold text-bleu-fonce group-hover:text-bleu transition-colors">
                       {membre.nom}
