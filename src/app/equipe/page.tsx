@@ -75,14 +75,14 @@ export default async function EquipePage() {
                   href={`/equipe/${membre.slug}`}
                   className="group block bg-blanc rounded-2xl border border-gris/8 p-6 hover:shadow-xl hover:shadow-bleu-fonce/8 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className="w-20 h-20 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto overflow-hidden">
+                  <div className="relative w-20 h-20 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto overflow-hidden">
                     {membre.photo ? (
                       <Image
-                        src={urlFor(membre.photo).width(160).height(160).quality(80).url()}
+                        src={urlFor(membre.photo).width(200).height(200).fit("crop").auto("format").quality(80).url()}
                         alt={membre.nom}
-                        width={80}
-                        height={80}
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="80px"
+                        className="object-cover"
                       />
                     ) : (
                       membre.nom
