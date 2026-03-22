@@ -13,8 +13,10 @@
  */
 
 import Link from "next/link";
+import Image from "next/image";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
 import { getMembres } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 
 export const metadata = {
   title: "L'équipe",
@@ -25,6 +27,7 @@ type Membre = {
   _id: string;
   nom: string;
   slug: string;
+  photo?: any;
   role: string;
   pole: string;
   promo: string;
@@ -72,11 +75,21 @@ export default async function EquipePage() {
                   href={`/equipe/${membre.slug}`}
                   className="group block bg-blanc rounded-2xl border border-gris/8 p-6 hover:shadow-xl hover:shadow-bleu-fonce/8 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className="w-20 h-20 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto">
-                    {membre.nom
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                  <div className="w-20 h-20 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto overflow-hidden">
+                    {membre.photo ? (
+                      <Image
+                        src={urlFor(membre.photo).width(160).height(160).quality(80).url()}
+                        alt={membre.nom}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      membre.nom
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                    )}
                   </div>
                   <div className="mt-4 text-center">
                     <h3 className="font-serif text-lg font-semibold text-bleu-fonce group-hover:text-bleu transition-colors">
