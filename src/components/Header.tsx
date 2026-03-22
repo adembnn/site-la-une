@@ -7,19 +7,11 @@ import SearchModal from "./SearchModal";
 
 const rubriques = [
   { nom: "Europe", slug: "europe" },
-  { nom: "France", slug: "france" },
   { nom: "Moyen-Orient & Afrique du Nord", slug: "moyen-orient-and-afrique-du-nord" },
   { nom: "Asie", slug: "asie" },
-  { nom: "Chine", slug: "chine" },
-  { nom: "Indo-Pacifique", slug: "indo-pacifique" },
+  { nom: "France", slug: "france" },
   { nom: "Etats-Unis", slug: "ameriques" },
-  { nom: "Amérique Latine", slug: "amerique-latine" },
-  { nom: "Amérique du Nord", slug: "amerique-du-nord" },
-  { nom: "Afrique subsaharienne", slug: "afrique-subsaharienne" },
-  { nom: "Organisations internationales", slug: "organisations-internationales" },
-  { nom: "Géoéconomie", slug: "geoeconomie" },
-  { nom: "Articles longs", slug: "article-long" },
-  { nom: "Articles courts", slug: "article-court" },
+  { nom: "Chine", slug: "chine" },
 ];
 
 export default function Header() {
