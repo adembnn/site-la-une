@@ -5,9 +5,15 @@ import { useState } from "react";
 type Props = {
   nom: string;
   photoUrl?: string;
+  size?: "sm" | "lg";
 };
 
-export default function MembrePhoto({ nom, photoUrl }: Props) {
+const sizeClasses = {
+  sm: { container: "w-20 h-20", text: "text-2xl" },
+  lg: { container: "w-24 h-24", text: "text-3xl" },
+};
+
+export default function MembrePhoto({ nom, photoUrl, size = "sm" }: Props) {
   const [erreur, setErreur] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -16,16 +22,18 @@ export default function MembrePhoto({ nom, photoUrl }: Props) {
     .map((n) => n[0])
     .join("");
 
+  const s = sizeClasses[size];
+
   if (!photoUrl || erreur) {
     return (
-      <div className="w-20 h-20 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-2xl font-bold mx-auto">
+      <div className={`${s.container} rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif ${s.text} font-bold mx-auto`}>
         {initiales}
       </div>
     );
   }
 
   return (
-    <div className="w-20 h-20 rounded-full bg-gris-clair flex items-center justify-center mx-auto overflow-hidden">
+    <div className={`${s.container} rounded-full bg-gris-clair flex items-center justify-center mx-auto overflow-hidden`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={photoUrl}
@@ -35,7 +43,7 @@ export default function MembrePhoto({ nom, photoUrl }: Props) {
         onLoad={() => setLoaded(true)}
       />
       {!loaded && (
-        <span className="text-bleu-fonce font-serif text-2xl font-bold">
+        <span className={`text-bleu-fonce font-serif ${s.text} font-bold`}>
           {initiales}
         </span>
       )}

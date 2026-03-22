@@ -12,11 +12,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ArticleCard from "@/components/ArticleCard";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
+import MembrePhoto from "@/components/MembrePhoto";
 import {
   getAllAuteurSlugs,
   getMembreBySlug,
   getArticlesByAuteur,
 } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
 
 export async function generateStaticParams() {
   const slugs = await getAllAuteurSlugs();
@@ -63,14 +65,15 @@ export default async function MembrePage({
 
       {/* Profil */}
       <AnimateOnScroll>
-        <div className="mt-6 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="w-24 h-24 rounded-full bg-bleu-fonce flex items-center justify-center text-blanc font-serif text-3xl font-bold shrink-0">
-            {membre.nom
-              .split(" ")
-              .map((n: string) => n[0])
-              .join("")}
+        <div className="mt-6 flex flex-col sm:flex-row items-center gap-6">
+          <div className="shrink-0">
+            <MembrePhoto
+              nom={membre.nom}
+              photoUrl={membre.photo ? urlFor(membre.photo).width(400).height(400).fit("crop").quality(80).url() : undefined}
+              size="lg"
+            />
           </div>
-          <div>
+          <div className="text-center sm:text-left">
             <h1 className="font-serif text-3xl font-bold text-bleu-fonce">
               {membre.nom}
             </h1>
