@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/studio/", "/api/"],
     },
-    sitemap: "https://site-la-une-w8a6.vercel.app/sitemap.xml",
+    sitemap: "https://launessec.fr/sitemap.xml",
   };
 }

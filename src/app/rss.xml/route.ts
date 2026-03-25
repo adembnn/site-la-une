@@ -1,6 +1,6 @@
 import { getArticlesForRSS } from "@/sanity/queries";
 
-const siteUrl = "https://site-la-une-w8a6.vercel.app";
+const siteUrl = "https://launessec.fr";
 
 function escapeXml(str: string): string {
   return str

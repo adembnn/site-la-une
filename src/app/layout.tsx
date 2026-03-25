@@ -15,7 +15,7 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600", "700"],
 });
 
-const siteUrl = "https://site-la-une-w8a6.vercel.app";
+const siteUrl = "https://launessec.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

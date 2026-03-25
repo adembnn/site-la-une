@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { client } from "@/sanity/client";
 
-const siteUrl = "https://site-la-une-w8a6.vercel.app";
+const siteUrl = "https://launessec.fr";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages statiques
