@@ -56,13 +56,13 @@ export default function Header() {
               Nos cartes
             </Link>
             <Link
-              href="/rubriques/articles-courts"
+              href="/rubriques/article-court"
               className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full"
             >
               Articles courts
             </Link>
             <Link
-              href="/rubriques/articles-longs"
+              href="/rubriques/article-long"
               className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full"
             >
               Articles longs
@@ -146,14 +146,14 @@ export default function Header() {
             Nos cartes
           </Link>
           <Link
-            href="/rubriques/articles-courts"
+            href="/rubriques/article-court"
             className="block py-3 text-sm text-blanc/80 hover:text-dore transition-colors"
             onClick={() => setMenuOpen(false)}
           >
             Articles courts
           </Link>
           <Link
-            href="/rubriques/articles-longs"
+            href="/rubriques/article-long"
             className="block py-3 text-sm text-blanc/80 hover:text-dore transition-colors"
             onClick={() => setMenuOpen(false)}
           >
