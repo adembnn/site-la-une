@@ -19,6 +19,15 @@ const siteUrl = "https://launessec.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   title: {
     default: "La UN'e ESSEC | Journal de géopolitique par UN'ESSEC - ESSEC Business School",
     template: "%s | La UN'e ESSEC",
