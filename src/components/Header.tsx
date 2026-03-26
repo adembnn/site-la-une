@@ -55,6 +55,18 @@ export default function Header() {
             >
               Nos cartes
             </Link>
+            <Link
+              href="/rubriques/articles-courts"
+              className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Articles courts
+            </Link>
+            <Link
+              href="/rubriques/articles-longs"
+              className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Articles longs
+            </Link>
             <div className="relative group">
               <button className="relative text-sm font-medium text-blanc/80 hover:text-blanc transition-colors after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-dore after:transition-all after:duration-300 hover:after:w-full">
                 Rubriques
@@ -132,6 +144,20 @@ export default function Header() {
             onClick={() => setMenuOpen(false)}
           >
             Nos cartes
+          </Link>
+          <Link
+            href="/rubriques/articles-courts"
+            className="block py-3 text-sm text-blanc/80 hover:text-dore transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Articles courts
+          </Link>
+          <Link
+            href="/rubriques/articles-longs"
+            className="block py-3 text-sm text-blanc/80 hover:text-dore transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Articles longs
           </Link>
           <p className="py-2 text-xs font-semibold text-dore uppercase tracking-wider">
             Rubriques
