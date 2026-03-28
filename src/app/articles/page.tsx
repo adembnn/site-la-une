@@ -45,7 +45,7 @@ export default async function ArticlesPage({
       </AnimateOnScroll>
 
       {/* Filtres par rubrique */}
-      <AnimateOnScroll delay={100}>
+      <AnimateOnScroll delay={50}>
         <div className="mt-6 flex flex-wrap gap-2">
           <Link
             href="/articles"
@@ -68,7 +68,7 @@ export default async function ArticlesPage({
       {/* Grille d'articles */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {articlesPagines.map((article: any, i: number) => (
-          <AnimateOnScroll key={article._id} delay={i * 80}>
+          <AnimateOnScroll key={article._id} delay={i * 40}>
             <ArticleCard article={article} />
           </AnimateOnScroll>
         ))}

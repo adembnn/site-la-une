@@ -19,7 +19,6 @@ import Link from "next/link";
 import Image from "next/image";
 import ArticleCard from "@/components/ArticleCard";
 import AnimateOnScroll from "@/components/AnimateOnScroll";
-import NewsletterForm from "@/components/NewsletterForm";
 import { getArticles } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 
@@ -117,24 +116,24 @@ export default async function Home() {
                 Dossier de la semaine
               </p>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={100}>
+            <AnimateOnScroll delay={50}>
               <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-blanc text-balance tracking-tight">
                 {articleLong.titre}
               </h1>
             </AnimateOnScroll>
             {articleLong.auteur && (
-              <AnimateOnScroll delay={150}>
+              <AnimateOnScroll delay={75}>
                 <p className="mt-4 text-base font-sans font-medium text-blanc/50 tracking-wide uppercase">
                   Par {articleLong.auteur.nom}
                 </p>
               </AnimateOnScroll>
             )}
-            <AnimateOnScroll delay={200}>
+            <AnimateOnScroll delay={100}>
               <p className="mt-4 text-xl text-blanc/60 leading-relaxed text-balance font-sans font-light">
                 {articleLong.sousTitre}
               </p>
             </AnimateOnScroll>
-            <AnimateOnScroll delay={300}>
+            <AnimateOnScroll delay={150}>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href={`/articles/${articleLong.slug}`}
@@ -177,7 +176,7 @@ export default async function Home() {
               <div className="flex-1 h-px bg-gradient-to-r from-dore/40 to-transparent" />
             </div>
           </AnimateOnScroll>
-          <AnimateOnScroll delay={100}>
+          <AnimateOnScroll delay={50}>
             <Link href={`/articles/${derniereCarte.slug}`} className="group block">
               <div className="bg-dore-clair/30 rounded-2xl p-6 md:p-10 border border-dore/20 hover:shadow-xl hover:shadow-dore/10 transition-all duration-500">
                 {/* Image centrée — taille réelle, bordure dorée */}
@@ -224,7 +223,7 @@ export default async function Home() {
               </div>
             </Link>
           </AnimateOnScroll>
-          <AnimateOnScroll delay={200}>
+          <AnimateOnScroll delay={100}>
             <div className="mt-8 text-center">
               <Link
                 href="/rubriques/cartes"
@@ -258,17 +257,17 @@ export default async function Home() {
             </AnimateOnScroll>
           )}
           {articlesCourts[1] && (
-            <AnimateOnScroll delay={100} className="lg:col-span-5">
+            <AnimateOnScroll delay={50} className="lg:col-span-5">
               <ArticleCard article={articlesCourts[1]} variant="horizontal" />
             </AnimateOnScroll>
           )}
           {articlesCourts[2] && (
-            <AnimateOnScroll delay={200} className="lg:col-span-5">
+            <AnimateOnScroll delay={100} className="lg:col-span-5">
               <ArticleCard article={articlesCourts[2]} variant="horizontal" />
             </AnimateOnScroll>
           )}
           {articlesCourts[3] && (
-            <AnimateOnScroll delay={300} className="lg:col-span-12">
+            <AnimateOnScroll delay={150} className="lg:col-span-12">
               <ArticleCard article={articlesCourts[3]} variant="horizontal" />
             </AnimateOnScroll>
           )}
@@ -296,7 +295,7 @@ export default async function Home() {
           </AnimateOnScroll>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articlesAnciens.slice(0, 6).map((article: any, i: number) => (
-              <AnimateOnScroll key={article._id} delay={i * 80}>
+              <AnimateOnScroll key={article._id} delay={i * 40}>
                 <ArticleCard article={article} />
               </AnimateOnScroll>
             ))}
@@ -317,24 +316,6 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Bandeau newsletter */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-bleu-fonce to-[#004080]" />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 right-10 w-64 h-64 rounded-full bg-dore blur-3xl" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <AnimateOnScroll>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-blanc">
-              Restez informé
-            </h2>
-            <p className="mt-3 text-blanc/60 text-lg">
-              Recevez nos articles chaque semaine dans votre boîte mail.
-            </p>
-            <NewsletterForm variant="banner" />
-          </AnimateOnScroll>
-        </div>
-      </section>
     </div>
   );
 }

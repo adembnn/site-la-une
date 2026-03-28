@@ -3,6 +3,7 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NewsletterForm from "@/components/NewsletterForm";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -70,6 +71,21 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col antialiased">
         <Header />
         <main className="flex-1">{children}</main>
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-bleu-fonce to-[#004080]" />
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 right-10 w-64 h-64 rounded-full bg-dore blur-3xl" />
+          </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-blanc">
+              Restez informé
+            </h2>
+            <p className="mt-3 text-blanc/60 text-lg">
+              Recevez nos articles chaque semaine dans votre boîte mail.
+            </p>
+            <NewsletterForm variant="banner" />
+          </div>
+        </section>
         <Footer />
       </body>
     </html>

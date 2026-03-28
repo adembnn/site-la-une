@@ -70,7 +70,7 @@ export default async function EquipePage() {
           </AnimateOnScroll>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {membresDuPole.map((membre, i) => (
-              <AnimateOnScroll key={membre._id} delay={i * 80}>
+              <AnimateOnScroll key={membre._id} delay={i * 40}>
                 <Link
                   href={`/equipe/${membre.slug}`}
                   className="group block bg-blanc rounded-2xl border border-gris/8 p-6 hover:shadow-xl hover:shadow-bleu-fonce/8 hover:-translate-y-1 transition-all duration-500"

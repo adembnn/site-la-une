@@ -84,7 +84,7 @@ export default async function RubriquePage({
         <>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articlesPagines.map((article: { _id: string }, i: number) => (
-              <AnimateOnScroll key={article._id} delay={i * 80}>
+              <AnimateOnScroll key={article._id} delay={i * 40}>
                 <ArticleCard article={article as any} />
               </AnimateOnScroll>
             ))}

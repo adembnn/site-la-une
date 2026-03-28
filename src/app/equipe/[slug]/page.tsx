@@ -102,7 +102,7 @@ export default async function MembrePage({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {articles.map((article: { _id: string }, i: number) => (
-              <AnimateOnScroll key={article._id} delay={i * 80}>
+              <AnimateOnScroll key={article._id} delay={i * 40}>
                 <ArticleCard article={article as any} />
               </AnimateOnScroll>
             ))}
