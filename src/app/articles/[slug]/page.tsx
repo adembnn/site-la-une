@@ -57,7 +57,6 @@ const portableTextComponents = {
 
 /**
  * generateStaticParams : dit à Next.js quelles URLs pré-générer.
- * Sans ça, Next.js ne saurait pas que /articles/mon-article existe.
  */
 export async function generateStaticParams() {
   const slugs = await getAllArticleSlugs();
@@ -74,7 +73,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  let article = await getArticleBySlug(slug);
+  if (!article) {
+    const decoded = decodeURIComponent(slug);
+    if (decoded !== slug) article = await getArticleBySlug(decoded);
+  }
   if (!article) return { title: "Article introuvable" };
 
   const imageUrl = article.imageCouverture
@@ -109,8 +112,14 @@ export default async function ArticlePage({
   // 1. On récupère le slug depuis l'URL
   const { slug } = await params;
 
-  // 2. On demande l'article à Sanity
-  const article = await getArticleBySlug(slug);
+  // 2. On demande l'article à Sanity (essai avec le slug brut puis décodé pour les accents)
+  let article = await getArticleBySlug(slug);
+  if (!article) {
+    const decoded = decodeURIComponent(slug);
+    if (decoded !== slug) {
+      article = await getArticleBySlug(decoded);
+    }
+  }
 
   // 3. Si l'article n'existe pas, on affiche une page 404
   if (!article) notFound();

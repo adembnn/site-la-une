@@ -82,10 +82,32 @@ export default async function Home() {
       ),
   );
 
-  // Articles courts de la semaine (tous sauf le dossier)
-  const articlesCourts = articlesSemaine.filter(
-    (a: any) => a._id !== articleLong?._id,
+  // Articles courts de la semaine (tous sauf le dossier et les cartes)
+  let articlesCourts = articlesSemaine.filter(
+    (a: any) => a._id !== articleLong?._id && !a.categories?.some((cat: { slug: string }) => cat.slug === "cartes"),
   );
+
+  // Si aucun article court cette semaine, on cherche la dernière semaine qui en a
+  if (articlesCourts.length === 0 && articles.length > 0) {
+    const tousLesCourts = articles.filter(
+      (a: any) => a.categories?.some((cat: { slug: string }) => cat.slug === "article-court"),
+    );
+    if (tousLesCourts.length > 0) {
+      // On prend la semaine du premier article court (le plus récent)
+      const datePremierCourt = new Date(tousLesCourts[0].datePublication);
+      const jourCourt = datePremierCourt.getDay();
+      const decalageCourt = jourCourt === 0 ? 6 : jourCourt - 1;
+      const debutSemaineCourts = new Date(datePremierCourt);
+      debutSemaineCourts.setDate(datePremierCourt.getDate() - decalageCourt);
+      debutSemaineCourts.setHours(0, 0, 0, 0);
+      const finSemaineCourts = new Date(debutSemaineCourts);
+      finSemaineCourts.setDate(finSemaineCourts.getDate() + 7);
+      articlesCourts = tousLesCourts.filter((a: any) => {
+        const date = new Date(a.datePublication);
+        return date >= debutSemaineCourts && date < finSemaineCourts;
+      });
+    }
+  }
 
   // La dernière carte publiée (catégorie "cartes")
   const derniereCarte = articles.find(
@@ -95,8 +117,11 @@ export default async function Home() {
       ),
   );
 
-  // Articles anciens = tous ceux qui ne sont PAS dans la semaine affichée
-  const idsAffiches = new Set(articlesSemaine.map((a: any) => a._id));
+  // Articles anciens = tous ceux qui ne sont PAS déjà affichés
+  const idsAffiches = new Set([
+    ...articlesSemaine.map((a: any) => a._id),
+    ...articlesCourts.map((a: any) => a._id),
+  ]);
   const articlesAnciens = articles.filter(
     (a: any) => !idsAffiches.has(a._id),
   );
@@ -254,39 +279,41 @@ export default async function Home() {
       )}
 
       {/* Articles courts — grille asymétrique */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <AnimateOnScroll>
-          <div className="flex items-center gap-4 mb-12">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-bleu-fonce">
-              Cette semaine
-            </h2>
-            <div className="flex-1 h-px bg-gradient-to-r from-dore/40 to-transparent" />
-          </div>
-        </AnimateOnScroll>
+      {articlesCourts.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <AnimateOnScroll>
+            <div className="flex items-center gap-4 mb-12">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-bleu-fonce">
+                Nos derniers articles
+              </h2>
+              <div className="flex-1 h-px bg-gradient-to-r from-dore/40 to-transparent" />
+            </div>
+          </AnimateOnScroll>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {articlesCourts[0] && (
-            <AnimateOnScroll className="lg:col-span-7 lg:row-span-2">
-              <ArticleCard article={articlesCourts[0]} variant="large" />
-            </AnimateOnScroll>
-          )}
-          {articlesCourts[1] && (
-            <AnimateOnScroll delay={50} className="lg:col-span-5">
-              <ArticleCard article={articlesCourts[1]} variant="horizontal" />
-            </AnimateOnScroll>
-          )}
-          {articlesCourts[2] && (
-            <AnimateOnScroll delay={100} className="lg:col-span-5">
-              <ArticleCard article={articlesCourts[2]} variant="horizontal" />
-            </AnimateOnScroll>
-          )}
-          {articlesCourts[3] && (
-            <AnimateOnScroll delay={150} className="lg:col-span-12">
-              <ArticleCard article={articlesCourts[3]} variant="horizontal" />
-            </AnimateOnScroll>
-          )}
-        </div>
-      </section>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {articlesCourts[0] && (
+              <AnimateOnScroll className="lg:col-span-7 lg:row-span-2">
+                <ArticleCard article={articlesCourts[0]} variant="large" />
+              </AnimateOnScroll>
+            )}
+            {articlesCourts[1] && (
+              <AnimateOnScroll delay={50} className="lg:col-span-5">
+                <ArticleCard article={articlesCourts[1]} variant="horizontal" />
+              </AnimateOnScroll>
+            )}
+            {articlesCourts[2] && (
+              <AnimateOnScroll delay={100} className="lg:col-span-5">
+                <ArticleCard article={articlesCourts[2]} variant="horizontal" />
+              </AnimateOnScroll>
+            )}
+            {articlesCourts[3] && (
+              <AnimateOnScroll delay={150} className="lg:col-span-12">
+                <ArticleCard article={articlesCourts[3]} variant="horizontal" />
+              </AnimateOnScroll>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Tous nos articles — les articles des semaines précédentes */}
       {articlesAnciens.length > 0 && (
