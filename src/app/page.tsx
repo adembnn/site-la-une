@@ -45,19 +45,33 @@ export default async function Home() {
   const debutSemaineDerniere = new Date(debutSemaine);
   debutSemaineDerniere.setDate(debutSemaine.getDate() - 7);
 
-  // Articles de cette semaine
+  // Articles de cette semaine — si aucun, on remonte semaine par semaine
+  let debutPeriode = new Date(debutSemaine);
+  let finPeriode: Date | null = null;
   let articlesSemaine = articles.filter(
     (a: any) => new Date(a.datePublication) >= debutSemaine,
   );
 
-  // Si aucun article cette semaine → on prend ceux de la semaine dernière
-  if (articlesSemaine.length === 0) {
-    articlesSemaine = articles.filter(
-      (a: any) => {
+  if (articlesSemaine.length === 0 && articles.length > 0) {
+    // On remonte semaine par semaine jusqu'à trouver des articles
+    const dateArticlePlusAncien = new Date(articles[articles.length - 1].datePublication);
+    let cursor = new Date(debutSemaine);
+    while (cursor > dateArticlePlusAncien) {
+      cursor.setDate(cursor.getDate() - 7);
+      const debutTest = new Date(cursor);
+      const finTest = new Date(cursor);
+      finTest.setDate(finTest.getDate() + 7);
+      const found = articles.filter((a: any) => {
         const date = new Date(a.datePublication);
-        return date >= debutSemaineDerniere && date < debutSemaine;
-      },
-    );
+        return date >= debutTest && date < finTest;
+      });
+      if (found.length > 0) {
+        articlesSemaine = found;
+        debutPeriode = debutTest;
+        finPeriode = finTest;
+        break;
+      }
+    }
   }
 
   // Le dossier = le dernier article de la semaine ayant la catégorie "Article long"
